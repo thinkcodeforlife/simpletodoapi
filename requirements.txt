@@ -20,7 +20,6 @@ pkginfo
 psycopg2
 py
 PyJWT
-pyodbc
 pyOpenSSL
 pyparsing
 pyreadline
