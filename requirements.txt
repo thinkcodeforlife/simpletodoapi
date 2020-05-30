@@ -3,6 +3,8 @@ bcrypt
 entrypoints
 Flask
 Flask-Bcrypt
+Flask-HTTPAuth
+Flask-JWT-Extended
 Flask-Migrate
 Flask-RESTful
 Flask-Script

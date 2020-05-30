@@ -6,6 +6,7 @@
 ### Me ###
 _prj_/
 migrations/
+access_token.txt
 
 ### Flask ###
 instance/*

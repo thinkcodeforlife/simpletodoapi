@@ -4,6 +4,11 @@ from marshmallow import fields, Schema
 from flask_bcrypt import Bcrypt
 import datetime
 
+from itsdangerous import (TimedJSONWebSignatureSerializer
+                          as Serializer, BadSignature, SignatureExpired)
+
+
+
 bcrypt = Bcrypt()
 
 
@@ -132,6 +137,22 @@ class UserModel(db.Model):
     # add this new method
     def check_hash(self, password):
         return bcrypt.check_password_hash(self.password, password)
+
+    def generate_auth_token(self, expiration = 600):
+        s = Serializer(app.config['SECRET_KEY'], expires_in = expiration)
+        return s.dumps({ 'id': self.id })
+
+    @staticmethod
+    def verify_auth_token(token):
+        s = Serializer(app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token)
+        except SignatureExpired:
+            return None # valid token, but expired
+        except BadSignature:
+            return None # invalid token
+        user = UserModel.query.get(data['id'])
+        return user
 
 
 # add this class
